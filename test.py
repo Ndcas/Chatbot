@@ -1,0 +1,3 @@
+import randomname
+
+print(randomname)
