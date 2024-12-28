@@ -1,5 +1,7 @@
 Python 3.9.13
 
+Rasa 3.6.20
+
 Cài đặt:
 
     python -m venv ./venv

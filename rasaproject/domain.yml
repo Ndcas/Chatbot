@@ -1,34 +1,64 @@
 version: "3.1"
 
 intents:
+  - nlu_fallback
   - greet
   - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
+  - thanks
+  - criticize
+  - ask_ability
+  - ask_random_word
+  - ask_last_used_word
+  - ask_explanation
+  - ask_word_explanation
+  - give_sentence
+
+entities:
+  - given_word
+
+slots:
+  given_word:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: given_word
+  last_used_word:
+    type: text
+    initial_value: ""
+    mappings:
+      - type: custom
+  word_list:
+    type: list
+    initial_value: [ ]
+    mappings:
+      - type: custom
 
 responses:
+  utter_fallback:
+    - text: "Xin lỗi, tôi không thể nhận dạng được yêu cầu này, xin hãy thử lại nhé └(・。・)┘"
+
   utter_greet:
-  - text: "Hey! How are you?"
-
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
-
-  utter_happy:
-  - text: "Great, carry on!"
+    - text: "Chào bạn, chúc bạn một ngày tốt lành （＾ω＾）"
 
   utter_goodbye:
-  - text: "Bye"
+    - text: "Tạm biệt, hen gặp lại ┻┳|･ω･)/"
 
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  utter_thanks:
+    - text: "Cảm ơn lời khen của bạn (≧▽≦)"
+
+  utter_sorry:
+    - text: "Thành thật xin lỗi vì sự thiếu sót của tôi ╥﹏╥"
+
+  utter_ability:
+    - text: "Tôi là chatbot tiếng Anh thử nghiệm sử dụng RASA\n\nTôi có các chức năng sau, bạn có thể đặt câu hỏi tự nhiên hoặc sử dụng các lệnh:\n\t- Xem hướng dẫn sử dụng: !help\n\t- Cung cấp từ ngữ ngẫu nhiên: !random\n\t- Truy xuất từ được dùng gần nhất: !last\n\t- Giải thích từ gần nhất được lưu trong bộ nhớ: !explain\n\t- Giải thích từ cụ thể\n\t- Dịch câu: Với chức năng này bạn chỉ cần cung cấp câu mà không cần các yêu cầu như dịch cầu hay gì khác tránh làm ảnh hưởng khả năng nhận dạng\n\nʘᆽʘ"
+
+actions:
+  - action_give_random_word
+  - action_print_last_used_word
+  - action_explain_last_used_word
+  - action_explain_given_word
+  - action_translate
 
 session_config:
   session_expiration_time: 60
-  carry_over_slots_to_new_session: true
+  carry_over_slots_to_new_session: false

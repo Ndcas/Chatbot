@@ -2,12 +2,32 @@ version: "3.1"
 
 rules:
 
-- rule: Say goodbye anytime the user says goodbye
+- rule: "Say sorry when cannot identify intent"
+  steps:
+  - intent: nlu_fallback
+  - action: utter_fallback
+
+- rule: Greet user when user says hi
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- rule: Say goodbye when user says so
   steps:
   - intent: goodbye
   - action: utter_goodbye
 
-- rule: Say 'I am a bot' anytime the user challenges
+- rule: Thanks user for compliments
   steps:
-  - intent: bot_challenge
-  - action: utter_iamabot
+  - intent: thanks
+  - action: utter_thanks
+
+- rule: Say sorry when being criticized
+  steps:
+  - intent: criticize
+  - action: utter_sorry
+
+- rule: Explain ablilites when requested
+  steps:
+  - intent: ask_ability
+  - action: utter_ability

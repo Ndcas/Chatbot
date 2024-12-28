@@ -2,29 +2,27 @@ version: "3.1"
 
 stories:
 
-- story: happy path
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
+  - story: Give a random word when requested
+    steps:
+      - intent: ask_random_word
+      - action: action_give_random_word
 
-- story: sad path 1
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
+  - story: Print the last used word when requested
+    steps:
+      - intent: ask_last_used_word
+      - action: action_print_last_used_word
 
-- story: sad path 2
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
+  - story: Explain the last used word when requested
+    steps:
+      - intent: ask_explanation
+      - action: action_explain_last_used_word
+
+  - story: Explain a given word
+    steps:
+      - intent: ask_word_explanation
+      - action: action_explain_given_word
+
+  - story: Translate a given sentence
+    steps:
+      - intent: give_sentence
+      - action: action_translate
