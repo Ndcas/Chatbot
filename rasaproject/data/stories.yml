@@ -6,14 +6,6 @@ stories:
     steps:
       - intent: ask_random_word
       - action: action_give_random_word
-
-  - story: Print the last used word when requested
-    steps:
-      - intent: ask_last_used_word
-      - action: action_print_last_used_word
-
-  - story: Explain the last used word when requested
-    steps:
       - intent: ask_explanation
       - action: action_explain_last_used_word
 

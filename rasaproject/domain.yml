@@ -8,13 +8,13 @@ intents:
   - criticize
   - ask_ability
   - ask_random_word
-  - ask_last_used_word
   - ask_explanation
   - ask_word_explanation
-  - give_sentence
+  - ask_translation
 
 entities:
   - given_word
+  - given_sentence
 
 slots:
   given_word:
@@ -22,6 +22,11 @@ slots:
     mappings:
       - type: from_entity
         entity: given_word
+  given_sentence:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: given_sentence
   last_used_word:
     type: text
     initial_value: ""
@@ -50,11 +55,10 @@ responses:
     - text: "Thành thật xin lỗi vì sự thiếu sót của tôi ╥﹏╥"
 
   utter_ability:
-    - text: "Tôi là chatbot tiếng Anh thử nghiệm sử dụng RASA\n\nTôi có các chức năng sau, bạn có thể đặt câu hỏi tự nhiên hoặc sử dụng các lệnh:\n\t- Xem hướng dẫn sử dụng: !help\n\t- Cung cấp từ ngữ ngẫu nhiên: !random\n\t- Truy xuất từ được dùng gần nhất: !last\n\t- Giải thích từ gần nhất được lưu trong bộ nhớ: !explain\n\t- Giải thích từ cụ thể\n\t- Dịch câu: Với chức năng này bạn chỉ cần cung cấp câu mà không cần các yêu cầu như dịch cầu hay gì khác tránh làm ảnh hưởng khả năng nhận dạng\n\nʘᆽʘ"
+    - text: "Tôi là chatbot tiếng Anh thử nghiệm sử dụng RASA\n\nTôi có các chức năng sau, bạn có thể đặt câu hỏi tự nhiên:\n\t- Xem hướng dẫn sử dụng\n\t- Cung cấp từ ngữ ngẫu nhiên\n\t- Giải thích từ cụ thể\n\t- Dịch câu\nʘᆽʘ"
 
 actions:
   - action_give_random_word
-  - action_print_last_used_word
   - action_explain_last_used_word
   - action_explain_given_word
   - action_translate
