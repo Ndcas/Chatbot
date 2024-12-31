@@ -2,6 +2,8 @@ import math
 
 import requests
 
+import re
+
 
 def generateWord():
     templates = [
@@ -46,36 +48,36 @@ def generateWord():
 
 def generateSentence():
     templates = [
-        "- Câu [{}](given_sentence) dịch sang tiếng Việt là gì?",
-        "- Bạn có thể dịch câu [{}](given_sentence) không?",
-        "- [{}](given_sentence) nghĩa là gì trong tiếng Việt?",
-        "- Câu [{}](given_sentence) có nghĩa là gì?",
-        "- [{}](given_sentence) được dịch thế nào?",
-        "- Câu [{}](given_sentence) trong tiếng Anh có thể dịch ra sao?",
-        "- [{}](given_sentence) có thể dịch là gì?",
-        "- Dịch câu [{}](given_sentence) ra tiếng Việt giúp tôi",
-        "- Bạn có thể cho tôi biết [{}](given_sentence) có nghĩa gì không?",
-        "- Câu [{}](given_sentence) có thể được hiểu như thế nào?",
-        "- Bạn có thể giúp tôi hiểu câu [{}](given_sentence) không?",
-        "- Dịch câu [{}](given_sentence) ra tiếng Việt sao cho chính xác?",
-        "- Bạn có thể giải thích câu [{}](given_sentence) cho tôi không?",
-        "- Dịch câu [{}](given_sentence)",
-        "- Câu [{}](given_sentence) dịch sang tiếng Việt như thế nào?",
-        "- Câu [{}](given_sentence) có nghĩa là gì trong tiếng Việt?",
-        "- Bạn có thể giúp tôi dịch câu [{}](given_sentence) không?",
-        "- Dịch câu [{}](given_sentence) sang tiếng Việt giúp tôi.",
-        "- Bạn có thể cho tôi biết câu [{}](given_sentence) dịch ra sao không?",
-        "- Dịch câu [{}](given_sentence) từ tiếng Anh sang tiếng Việt như thế nào?",
-        "- Bạn có thể giải thích câu [{}](given_sentence) bằng tiếng Việt không?",
-        "- Dịch câu [{}](given_sentence) giúp tôi với.",
-        "- [{}](given_sentence) có thể dịch sang tiếng Việt như thế nào?",
-        "- Bạn có thể nói câu [{}](given_sentence) bằng tiếng Việt không?",
-        "- Giải thích câu [{}](given_sentence) bằng tiếng Việt giúp tôi",
-        "- Dịch câu [{}](given_sentence) sang tiếng Việt đi",
-        "- Bạn có thể cho tôi biết cách dịch câu [{}](given_sentence) không?",
-        "- Làm ơn dịch câu [{}](given_sentence) sang tiếng Việt.",
-        "- Câu [{}](given_sentence) có thể dịch sang tiếng Việt như thế nào?",
-        "- Bạn có thể cho tôi một bản dịch của câu [{}](given_sentence) không?"
+        '- Câu "{}" dịch sang tiếng Việt là gì?',
+        '- Bạn có thể dịch câu "{}" không?',
+        '- "{}" nghĩa là gì trong tiếng Việt?',
+        '- Câu "{}" có nghĩa là gì?',
+        '- "{}" được dịch thế nào?',
+        '- Câu "{}" trong tiếng Anh có thể dịch ra sao?',
+        '- "{}" có thể dịch là gì?',
+        '- Dịch câu "{}" ra tiếng Việt giúp tôi',
+        '- Bạn có thể cho tôi biết "{}" có nghĩa gì không?',
+        '- Câu "{}" có thể được hiểu như thế nào?',
+        '- Bạn có thể giúp tôi hiểu câu "{}" không?',
+        '- Dịch câu "{}" ra tiếng Việt sao cho chính xác?',
+        '- Bạn có thể giải thích câu "{}" cho tôi không?',
+        '- Dịch câu "{}"',
+        '- Câu "{}" dịch sang tiếng Việt như thế nào?',
+        '- Câu "{}" có nghĩa là gì trong tiếng Việt?',
+        '- Bạn có thể giúp tôi dịch câu "{}" không?',
+        '- Dịch câu "{}" sang tiếng Việt giúp tôi.',
+        '- Bạn có thể cho tôi biết câu "{}" dịch ra sao không?',
+        '- Dịch câu "{}" từ tiếng Anh sang tiếng Việt như thế nào?',
+        '- Bạn có thể giải thích câu "{}" bằng tiếng Việt không?',
+        '- Dịch câu "{}" giúp tôi với.',
+        '- "{}" có thể dịch sang tiếng Việt như thế nào?',
+        '- Bạn có thể nói câu "{}" bằng tiếng Việt không?',
+        '- Giải thích câu "{}" bằng tiếng Việt giúp tôi',
+        '- Dịch câu "{}" sang tiếng Việt đi',
+        '- Bạn có thể cho tôi biết cách dịch câu "{}" không?',
+        '- Làm ơn dịch câu "{}" sang tiếng Việt.',
+        '- Câu "{}" có thể dịch sang tiếng Việt như thế nào?',
+        '- Bạn có thể cho tôi một bản dịch của câu "{}" không?'
     ]
     response = requests.get("https://randomwordgenerator.com/json/sentences.json")
     if (response.status_code != 200):
@@ -84,5 +86,11 @@ def generateSentence():
     for r in range(900):
         print(templates[math.floor(r / 30)].format(response[r % len(response)]["sentence"]))
 
+text = 'Đây là một ví dụ: .'
 
-generateWord()
+# Sử dụng regex để tìm tất cả các phần giữa dấu ngoặc kép
+matches = re.findall(r'"(.*?)"', text)
+print(matches)
+# In kết quả
+for match in matches:
+    print(match)

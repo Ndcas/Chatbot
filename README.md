@@ -13,15 +13,21 @@ Cài đặt:
     pip install -U randomname
 
 Chạy:
-    
+
     cd rasaproject
 
     rasa run actions (terminal 1)    
 
     rasa shell (terminal 2)
 
-Huấn luyện lại:
+Huấn luyện lại (xóa cache trước):
 
     rmdir models
 
     rasa train
+
+Kiểm tra các chỉ số sau khi huấn luyện:
+
+    tensorboard --logdir .\tensorboard\
+
+    Mở link được hiện trong terminal

@@ -2,32 +2,49 @@ version: "3.1"
 
 rules:
 
-- rule: "Say sorry when cannot identify intent"
-  steps:
-  - intent: nlu_fallback
-  - action: utter_fallback
+  - rule: "Say sorry when cannot identify intent"
+    steps:
+      - intent: nlu_fallback
+      - action: utter_default
 
-- rule: Greet user when user says hi
-  steps:
-  - intent: greet
-  - action: utter_greet
+  - rule: Greet user when user says hi
+    steps:
+      - intent: greet
+      - action: utter_greet
 
-- rule: Say goodbye when user says so
-  steps:
-  - intent: goodbye
-  - action: utter_goodbye
+  - rule: Say goodbye when user says so
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
 
-- rule: Thanks user for compliments
-  steps:
-  - intent: thanks
-  - action: utter_thanks
+  - rule: Thanks user for compliments
+    steps:
+      - intent: thanks
+      - action: utter_thanks
 
-- rule: Say sorry when being criticized
-  steps:
-  - intent: criticize
-  - action: utter_sorry
+  - rule: Say sorry when being criticized
+    steps:
+      - intent: criticize
+      - action: utter_sorry
 
-- rule: Explain ablilites when requested
-  steps:
-  - intent: ask_ability
-  - action: utter_ability
+  - rule: Explain ablilites when requested
+    steps:
+      - intent: ask_ability
+      - action: utter_ability
+
+#  - rule: Give a random word when requested
+#    steps:
+#      - intent: ask_random_word
+#      - action: action_give_random_word
+#      - intent: ask_explanation
+#      - action: action_explain_last_used_word
+
+  - rule: Explain a given word
+    steps:
+      - intent: ask_word_explanation
+      - action: action_explain_given_word
+
+  - rule: Translate a given sentence
+    steps:
+      - intent: ask_translation
+      - action: action_translate

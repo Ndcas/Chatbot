@@ -14,7 +14,6 @@ intents:
 
 entities:
   - given_word
-  - given_sentence
 
 slots:
   given_word:
@@ -22,11 +21,6 @@ slots:
     mappings:
       - type: from_entity
         entity: given_word
-  given_sentence:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: given_sentence
   last_used_word:
     type: text
     initial_value: ""
@@ -37,9 +31,14 @@ slots:
     initial_value: [ ]
     mappings:
       - type: custom
+  explained_words:
+    type: list
+    initial_value: [ ]
+    mappings:
+      - type: custom
 
 responses:
-  utter_fallback:
+  utter_default:
     - text: "Xin lỗi, tôi không thể nhận dạng được yêu cầu này, xin hãy thử lại nhé └(・。・)┘"
 
   utter_greet:

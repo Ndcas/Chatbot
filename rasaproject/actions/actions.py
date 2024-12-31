@@ -4,6 +4,7 @@ import requests
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
+import re
 
 
 class ActionGiveRandomWord(Action):
@@ -35,6 +36,13 @@ class ActionExplainLastUsedWord(Action):
         if len(last) == 0:
             dispatcher.utter_message("Không có từ được lưu trong bộ nhớ")
             return []
+        else:
+            last = last.lower()
+        explained = tracker.get_slot("explained_words")
+        usedExplanation = list(filter(lambda explanation: explanation["word"] == last, explained))
+        if len(usedExplanation) > 0:
+            dispatcher.utter_message(usedExplanation[0]["explanation"])
+            return []
         response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{last}")
         if response.status_code != 200:
             dispatcher.utter_message("Không thể lấy thông tin, xin hãy thử lại sau")
@@ -57,7 +65,11 @@ class ActionExplainLastUsedWord(Action):
         info.append(f"Tìm hiểu thêm tại {url}")
         msg = "\n\n".join(info)
         dispatcher.utter_message(msg)
-        return []
+        explained.append({
+            "word": last,
+            "explanation": msg
+        })
+        return [SlotSet("explained_words", explained)]
 
 
 class ActionExplainGivenWord(Action):
@@ -69,6 +81,13 @@ class ActionExplainGivenWord(Action):
         word = tracker.get_slot("given_word")
         if len(word) == 0:
             dispatcher.utter_message("Không nhận dạng được từ yêu cầu, xin hãy thử lại sau")
+            return []
+        else:
+            word = word.lower()
+        explained = tracker.get_slot("explained_words")
+        usedExplanation = list(filter(lambda explanation: explanation["word"] == word, explained))
+        if len(usedExplanation) > 0:
+            dispatcher.utter_message(usedExplanation[0]["explanation"])
             return []
         response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
         if response.status_code != 200:
@@ -92,7 +111,11 @@ class ActionExplainGivenWord(Action):
         info.append(f"Tìm hiểu thêm tại {url}")
         msg = "\n\n".join(info)
         dispatcher.utter_message(msg)
-        return [SlotSet("last_used_word", word)]
+        explained.append({
+            "word": word,
+            "explanation": msg
+        })
+        return [SlotSet("last_used_word", word), SlotSet("explained_words", explained)]
 
 
 class ActionTranslate(Action):
@@ -102,9 +125,12 @@ class ActionTranslate(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         sentence = tracker.latest_message.get("text")
-        if len(sentence) == 0:
-            dispatcher.utter_message("Không nhận dạng được câu yêu cầu, xin hãy thử lại sau")
+        matches = re.findall(r'"(.*?)"', sentence)
+        if len(matches) == 0 or len(matches[0]) == 0:
+            dispatcher.utter_message("Không nhận dạng được câu yêu cầu, xin hãy để câu trong dấu ngoặc kép")
             return []
+        else:
+            sentence = matches[0]
         response = requests.get("https://clients5.google.com/translate_a/t",
                                 {"client": "dict-chrome-ex", "sl": "en", "tl": "vi", "q": sentence})
         if response.status_code != 200:
